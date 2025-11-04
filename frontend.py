@@ -15,6 +15,7 @@ if 'DB_HOST' in st.secrets:
     DB_CONFIG = {
         'host': st.secrets.get('DB_HOST'),
         'user': st.secrets.get('DB_USER'),
+        'port': st.secrets.get('DB_PORT'),  
         'password': st.secrets.get('DB_PASSWORD'),
         'database': st.secrets.get('DB_NAME')
     }
@@ -23,10 +24,11 @@ else:
     DB_CONFIG = {
         'host': os.environ.get('DB_HOST'),
         'user': os.environ.get('DB_USER'),
+        'port': st.secrets.get('DB_PORT'),  
         'password': os.environ.get('DB_PASSWORD'),
         'database': os.environ.get('DB_NAME')
     }
-    
+
 @st.cache_resource
 def connect_to_db():
     """Establishes a connection to the database."""
