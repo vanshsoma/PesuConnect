@@ -17,7 +17,7 @@ if 'DB_HOST' in st.secrets:
         'user': st.secrets.get('DB_USER'),
         'password': st.secrets.get('DB_PASSWORD'),
         'database': st.secrets.get('DB_NAME'),
-        'ssl_verify_cert': True,
+        'ssl_verify_cert': False, # <-- THIS IS THE FIX
         'ssl_disabled': False
     }
 else:
@@ -28,7 +28,7 @@ else:
         'user': os.environ.get('DB_USER'),
         'password': os.environ.get('DB_PASSWORD'),
         'database': os.environ.get('DB_NAME'),
-        'ssl_verify_cert': True,
+        'ssl_verify_cert': False, # <-- THIS IS THE FIX
         'ssl_disabled': False
     }
 # ------------------------------
@@ -682,3 +682,4 @@ def main():
             
 if __name__ == "__main__":
     main()
+
