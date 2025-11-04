@@ -7,6 +7,3 @@
 This is the Website: [PesuConnect](https://pesuconnect.streamlit.app/)
 
 
-
-
-Now you can navigate through the website locally.
