@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS pesuConnect;
+USE pesuConnect;
+
 CREATE TABLE Student (
     student_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
