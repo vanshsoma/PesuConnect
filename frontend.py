@@ -6,7 +6,6 @@ import os
 from dotenv import load_dotenv
 
 # --- DATABASE CONFIGURATION ---
-# --- DATABASE CONFIGURATION ---
 load_dotenv()  # Load variables from .env file (for local development)
 
 # Check if running in Streamlit Cloud (where secrets are set)
@@ -14,22 +13,28 @@ if 'DB_HOST' in st.secrets:
     # Use secrets from Streamlit
     DB_CONFIG = {
         'host': st.secrets.get('DB_HOST'),
+        'port': st.secrets.get('DB_PORT'),  # <-- Includes your Port fix
         'user': st.secrets.get('DB_USER'),
-        'port': st.secrets.get('DB_PORT'),  
         'password': st.secrets.get('DB_PASSWORD'),
-        'database': st.secrets.get('DB_NAME')
+        'database': st.secrets.get('DB_NAME'),
+        'ssl_verify_cert': True,
+        'ssl_disabled': False
     }
 else:
     # Use .env file (for local development)
     DB_CONFIG = {
         'host': os.environ.get('DB_HOST'),
+        'port': os.environ.get('DB_PORT'), # <-- Includes your Port fix
         'user': os.environ.get('DB_USER'),
-        'port': st.secrets.get('DB_PORT'),  
         'password': os.environ.get('DB_PASSWORD'),
-        'database': os.environ.get('DB_NAME')
+        'database': os.environ.get('DB_NAME'),
+        'ssl_verify_cert': True,
+        'ssl_disabled': False
     }
+# ------------------------------
 
-@st.cache_resource
+# --- DATABASE CONNECTION ---
+# @st.cache_resource # <-- Removed cache to force fresh connections
 def connect_to_db():
     """Establishes a connection to the database."""
     try:
@@ -37,7 +42,11 @@ def connect_to_db():
         return conn
     except mysql.connector.Error as err:
         st.error(f"Error connecting to database: {err}")
+        print(f"Error connecting to database: {err}") # Also print to console
         return None
+
+# --- REFACTORED DATABASE LOGIC (NO UI) ---
+# These functions just get or send data to the DB.
 
 def db_student_login(conn, email, password):
     """Handles the student login process."""
